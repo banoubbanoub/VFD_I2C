@@ -76,3 +76,10 @@ not affected by LATCH ENABLE or STROBE.
 5-V for [cathode filament].
 
 28-V for dots and segments and grids.
+first I did create array of type byte consist of 4 element called shiftRegisterBytes[4]; to carry data for all dots and segments and icons in the display by using return type method that return array type of byte. in the DisplayData.h code
+
+second star sending grid data and then dots or segments data over SPI SPI.beginTransaction(SPISettings(1000000,LSBFIRST,SPI_MODE3));because of the SN75518 , the serial data is entered into the shift register on low-to-high
+
+I did utilize I2C to receive data over I2C from any Arduino board. by using library I did belt I called VFDI2CMster to send data over I2C
+
+I did program ever thing using visual code IDE and platform IO.
