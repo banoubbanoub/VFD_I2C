@@ -1,4 +1,4 @@
-# VFD_I2C
+
 A vacuum fluorescent display (VFD) is a [display device]once commonly used on consumer electronics equipment such as [video cassette recorders], [car radios], and [microwave ovens].
 
 A VFD operates on the principle of [cathodoluminescence], roughly similar to a [cathode ray tube], but operating at much lower voltages. Each tube in a VFD has a [phosphor]-coated carbon [anode] that is bombarded by electrons emitted from the [cathode filament]. In fact, each tube in a VFD is a [triode] vacuum tube because it also has a mesh control grid
@@ -21,3 +21,58 @@ The extra indicators (in our example, "VCR", "Hi-Fi", "STEREO", "SAP", etc.) are
 
 The light emitted by most VFDs contains many colors and can often be filtered to enhance the color saturation providing a deep green or deep blue, depending on the whims of the product's designers. Phosphors used in VFDs are different from those in cathode-ray displays since they must emit acceptable brightness with only around 50 volts of electron energy, compared to several thousand volts in a CRT. The insulating layer in a VFD is normally black, however it can be removed to allow the display to be transparent. AMVFD displays that incorporate a driver IC are available for applications that require high image brightness and an increased number of pixels. Phosphors of different colors can be stacked on top of each other for achieving gradations and various color combinations. Hybrid VFDs include both fixed display segments and a graphic VFD in the same unit. VFDs may have display segments, grids and related circuitry on their front and rear plass panels, using a central cathode for both panels, allowing for increased segment density. The segments can also be placed exclusively on the front instead of on the back, improving viewing angles and brightness.
 Besides brightness, VFDs have the advantages of being rugged, inexpensive, and easily configured to display a wide variety of customized messages, and unlike LCDs, VFDs are not limited by the response time of rearranging liquid crystals and are thus able to function normally in cold, even sub-zero, temperatures, making them ideal for outdoor devices in cold climates. Early on, the main disadvantage of such displays was their use of significantly more power (0.2 watts) than a simple LCD. This was considered a significant drawback for battery-operated equipment like calculators, so VFDs ended up being used mainly in equipment powered by an AC supply or heavy-duty rechargeable batteries.
+this display has a 14 characters, consist of 5*7 dot matrix in the first row, and icon's to display for example WIFI and Bluetooth and 14 segments 9 digits and 7 segments 2 digits in the second row.
+
+.I did use two SN75518 Vacuum fluorescent display drivers, to control the dots and segments and icons and grids in the display. it has 60-v output voltage swing capability, and 25-mA output source current capability, and high-speed serially shifted data input, latch on all driver outputs. Each device consists of a 32-bit shift register, 32
+
+latches, and 32 output AND gates. Serial data is
+
+entered into the shift register on the low-to-high
+
+transition of CLOCK. While LATCH ENABLE is
+
+high, parallel data is transferred to the output
+
+buffers through a 32-bit latch. Data present in the
+
+latch during the high-to-low transition of LATCH
+
+ENABLE is latched. When STROBE is low, all Q
+
+outputs are enabled. When STROBE is high, all Q
+
+outputs are low.
+
+I did connect the first dot to the firs Q1 in the SN75518 Vacuum fluorescent display drivers and the second dot to the Q2 and so on. to the last Q32,the last 3 dots connected to the second SN75518.
+
+the firs SN75518 to control the 32 dots in the first row, and the icons and the 14 segments and 7 segments in the second row.
+
+the second SN75518 to control grids, this display has 20 grids for the first and the second row.
+
+and I did use the last 5 Q of the second SN75518 to control the rest of last 3 dots in the first row.
+
+I did cascade the first SN75518 to the second SN75518 throw serial out
+
+and I did use Arduino seeeduino Xiao to control the two SN75518 Vacuum fluorescent display drivers by utilize SPI to send data at speed of 1000000 MHZ to the display ,and I utilize I2C to receive data from any other Arduino board like uno,nano,mega.by using library I did belt I called VFDI2CMster to send data over I2C, which is compatible with other Arduino boards.
+
+Serial peripheral interface (SPI) is one of the most widely used interfaces between microcontroller and peripheral ICs such as sensors, ADCs, DACs, shift registers, SRAM, and others.
+
+SPI is a synchronous, full duplex main-subnode-based interface. The data from the main or the subnode is synchronized on the rising or falling clock edge. Both main and subnode can transmit data at the same time. The SPI interface can be either 3-wire or 4-wire. This article focuses on the popular 4-wire SPI interface.
+
+.In my case I use only MOSI and SCK only. to connect to data and clock in the SN75518.
+
+SCK go to the first and second SN75518 CLOCK pin #21.
+
+MOSI go to the first SN75518 DATA pin #39, and SERIAL OUT from the first SN75518 to second SN75518, that called cascade.
+
+Serial data output from the shift register may be
+
+used to cascade additional devices. This output is
+
+not affected by LATCH ENABLE or STROBE.
+
+5-V for SN75518 and Arduino seeeduino Xiao.
+
+5-V for [cathode filament].
+
+28-V for dots and segments and grids.
